@@ -14,48 +14,81 @@ class _MyHomePageState extends State<MyHomePage> {
   num gorjeta = 0;
   String gorjetaDecimal = '0.00';
 
-  TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blueGrey,
-        title: Center(
-          child: Text(widget.title),
-        ), 
-      ),
-      body: Center(
-        child: Padding(
-          padding: EdgeInsets.all(20),
-          child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TextField(
-              controller: _controller,
-              keyboardType: TextInputType.number,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly
-              ],
-              onChanged: (value) {
-                setState(() {
-                  gorjeta = (num.tryParse(value) ?? 0) * 0.10;
-                  gorjetaDecimal = gorjeta.toStringAsFixed(2);
-                });
-              },
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Digite o valor da conta"
-                ),
+        appBar: AppBar(
+          backgroundColor: Color(0xff819ba6),
+          title: Center(
+            child: Text(
+              widget.title,
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            Text(
-              "R\$ $gorjetaDecimal",
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+          ),
         ),
-        )
-      )
-    );
+        body: Center(
+            child: ColoredBox(
+          color: Color(0xffdceaf2),
+          child: Padding(
+            padding: EdgeInsets.all(30),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              spacing: 20,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black,
+                        spreadRadius: 1,
+                      ),
+                    ],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: Image.asset(
+                      'assets/images/gorjetinha.png',
+                      width: 150,
+                    ),
+                  ),
+                ),
+                TextField(
+                  controller: _controller,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  onChanged: (value) {
+                    setState(() {
+                      gorjeta = (num.tryParse(value) ?? 0) * 0.10;
+                      gorjetaDecimal = gorjeta.toStringAsFixed(2);
+                    });
+                  },
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      hintText: "Digite o valor da conta",
+                      hintStyle: TextStyle(color: Colors.grey[500]),
+                      prefixIcon: Icon(Icons.monetization_on_outlined),
+                      fillColor: Colors.white,
+                      filled: true),
+                ),
+                Text(
+                  "R\$ $gorjetaDecimal",
+                  style: TextStyle(
+                    fontSize: 35,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+              ],
+            ),
+          ),
+        )));
   }
 }
