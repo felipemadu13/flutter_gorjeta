@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -13,11 +14,13 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   num gorjeta = 0;
   String gorjetaDecimal = '0.00';
+  final NumberFormat currencyFormat = NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$');
 
   final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    Intl.defaultLocale = 'pt_BR';
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xff819ba6),
@@ -66,7 +69,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   onChanged: (value) {
                     setState(() {
                       gorjeta = (num.tryParse(value) ?? 0) * 0.10;
-                      gorjetaDecimal = gorjeta.toStringAsFixed(2);
+                      // gorjetaDecimal = gorjeta.toStringAsFixed(2);
+                      
                     });
                   },
                   decoration: InputDecoration(
@@ -80,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       filled: true),
                 ),
                 Text(
-                  "R\$ $gorjetaDecimal",
+                  currencyFormat.format(gorjeta),
                   style: TextStyle(
                     fontSize: 35,
                     fontWeight: FontWeight.bold
